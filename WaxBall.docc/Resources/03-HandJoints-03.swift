@@ -1,3 +1,10 @@
+//
+//  02-HandTracking-01.swift.swift
+//  
+//
+//  Created by Kimseoyeon on 8/18/26.
+//
+
 import Foundation
 import ARKit
 
@@ -13,12 +20,10 @@ final class HandTrackingManager {
                 handTracking
             ])
 
-            print("✅ Hand tracking started")
-
             await processHandUpdates()
 
         } catch {
-            print("❌ Hand tracking failed: \(error)")
+            print("Hand tracking failed: \(error)")
         }
     }
 
@@ -36,16 +41,12 @@ final class HandTrackingManager {
                 continue
             }
 
-            // MARK: - Get Hand Joints
-
             let thumb = skeleton.joint(.thumbTip)
             let index = skeleton.joint(.indexFingerTip)
             let middle = skeleton.joint(.middleFingerTip)
             let ring = skeleton.joint(.ringFingerTip)
             let little = skeleton.joint(.littleFingerTip)
             let wrist = skeleton.joint(.wrist)
-
-            // MARK: - Get World Positions
 
             let thumbPosition = getJointPosition(
                 thumb,
@@ -76,21 +77,6 @@ final class HandTrackingManager {
                 wrist,
                 from: handAnchor
             )
-
-            // MARK: - Debug
-
-            print("""
-            ---
-            Hand: \(handAnchor.chirality)
-
-            Thumb:  \(thumbPosition)
-            Index:  \(indexPosition)
-            Middle: \(middlePosition)
-            Ring:   \(ringPosition)
-            Little: \(littlePosition)
-            Wrist:  \(wristPosition)
-            ---
-            """)
         }
     }
 
