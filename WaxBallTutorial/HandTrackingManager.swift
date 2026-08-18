@@ -5,14 +5,42 @@
 //  Created by 조민지 on 8/14/26.
 //
 
-import SwiftUI
+import Foundation
+import ARKit
 
-struct HandTrackingManager: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+@MainActor
+final class HandTrackingManager {
+
+    let session = ARKitSession()
+    let handTracking = HandTrackingProvider()
+
+    func startTracking() async {
+        do {
+            try await session.run([
+                handTracking
+            ])
+
+            print("✅ Hand tracking started")
+            await processHandUpdates()
+        } catch {
+            print("❌ Hand tracking failed: \(error)")
+        }
     }
-}
 
-#Preview {
-    HandTrackingManager()
+    private func processHandUpdates() async {
+        for await update in handTracking.anchorUpdates {
+            let handAnchor = update.anchor
+            guard handAnchor.isTracked else {
+                continue
+            }
+            switch handAnchor.chirality {
+            case .left:
+                print("👈 Left hand detected")
+            case .right:
+                print("👉 Right hand detected")
+            @unknown default:
+                break
+            }
+        }
+    }
 }

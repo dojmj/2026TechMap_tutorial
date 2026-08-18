@@ -1,0 +1,103 @@
+@Tutorial(time: 10) {
+    @Intro(title: "Create a visionOS Project") {
+        이번 튜토리얼에서는 Xcode에서 새로운 visionOS 프로젝트를 만들고
+        WaxBall 프로젝트의 기본 구조를 살펴봅니다.
+    }
+
+    @Section(title: "Create the Project") {
+
+        @ContentAndMedia {
+            Vision Pro에서 실행할 새로운 visionOS 앱 프로젝트를 만들어봅니다.
+
+            @Image(
+                source: "Step01-01.png",
+                alt: "Xcode에서 visionOS App 프로젝트를 선택하는 화면"
+            )
+        }
+
+        @Steps {
+            @Step {
+                Xcode를 열고 **File > New > Project**를 선택합니다.
+                
+                @Image(
+                    source: "Step01-01.png",
+                    alt: 
+                )
+            }
+
+            @Step {
+                **visionOS** 탭에서 **App**을 선택하고 **Next**를 누릅니다.
+            }
+
+            @Step {
+                Product Name을 **WaxBall**로 입력합니다.
+            }
+        }
+    }
+
+    @Section(title: "Configure the Project") {
+
+        @ContentAndMedia {
+            WaxBall 프로젝트는 RealityKit 기반의 Mixed Immersive Space를 사용합니다.
+
+            프로젝트 옵션은 다음과 같이 설정합니다.
+
+            - **Initial Scene**: Window
+            - **Immersive Space Renderer**: RealityKit
+            - **Immersive Space**: Mixed
+            - **Testing System**: None
+
+            Window는 시작 화면으로 사용하고,
+            Mixed Immersive Space에서는 실제 주변 공간을 보면서
+            RealityKit으로 만든 왁뿌볼과 손 추적 인터랙션을 구현합니다.
+
+            @Image(
+                source: "Step01-02.png",
+                alt: "WaxBall visionOS 프로젝트 옵션 설정 화면"
+            )
+        }
+
+        @Steps {
+            @Step {
+                **Initial Scene**을 **Window**로 설정합니다.
+            }
+
+            @Step {
+                **Immersive Space Renderer**를 **RealityKit**으로 설정합니다.
+            }
+
+            @Step {
+                **Immersive Space**를 **Mixed**로 설정합니다.
+            }
+
+            @Step {
+                **Testing System**은 **None**으로 설정합니다.
+            }
+
+            @Step {
+                프로젝트를 저장할 위치를 선택하고 **Create**를 누릅니다.
+            }
+        }
+    }
+
+    @Section(title: "Explore the Project") {
+
+        @ContentAndMedia {
+            프로젝트가 생성되면 Xcode의 Project Navigator에서 기본 파일들을 확인합니다.
+        }
+
+        @Steps {
+            @Step {
+                왼쪽 Project Navigator에서 **WaxBallApp.swift** 파일을 확인합니다.
+            }
+
+            @Step {
+                **ContentView.swift** 파일을 확인합니다.
+            }
+
+            @Step {
+                **Assets** 폴더가 있는지 확인합니다.
+            }
+        }
+    }
+}

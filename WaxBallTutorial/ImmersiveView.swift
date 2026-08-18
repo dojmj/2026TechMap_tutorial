@@ -9,6 +9,9 @@ import SwiftUI
 import RealityKit
 
 struct ImmersiveView: View {
+    
+    @State private var handTrackingManager = HandTrackingManager()
+    
     var body: some View {
         RealityView { content in
             // Entity를 생성하고 공간에 추가
@@ -25,6 +28,9 @@ struct ImmersiveView: View {
                 content.add(butterbar)
             }
         }
+        .task {
+                await handTrackingManager.startTracking()
+                }
     }
 }
 
