@@ -10,14 +10,24 @@ import RealityKit
 import RealityKitContent
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
-                .padding(.bottom, 50)
+    @Environment(\.openImmersiveSpace)
+    private var openImmersiveSpace
 
-            Text("Hello, world!")
+    @Environment(\.dismissWindow)
+    private var dismissWindow
+    
+    var body: some View {
+        Button("몰입 공간 열기") {
+            Task {
+                let result = await openImmersiveSpace(
+                    id: "WaxBallSpace"
+                )
+
+                if result == .opened {
+                    dismissWindow(id: "MainWindow")
+                }
+            }
         }
-        .padding()
     }
 }
 

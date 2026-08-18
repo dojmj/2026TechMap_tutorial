@@ -10,8 +10,12 @@ import SwiftUI
 @main
 struct WaxBallTutorialApp: App {
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "MainWindow") {
             ContentView()
+        }
+        
+        ImmersiveSpace(id: "WaxBallSpace") {
+            ImmersiveView()
         }
     }
 }
