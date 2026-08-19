@@ -1,0 +1,17 @@
+{
+  "pathsToIds" : {
+    "\/Untitled\/Sources\/Untitled\/Untitled.rkassets\/Scene.usda" : "1FB59CC7-898F-4AEA-A352-DA98F988AE42",
+    "\/Untitled\/Sources\/Untitled\/Untitled.rkassets\/butterbar1.usda" : "D50DEC87-B3EC-49C8-AF82-E2889C9C3192",
+    "\/Untitled\/Sources\/Untitled\/Untitled.rkassets\/butterbar2.usda" : "8CA67EE4-1FED-4002-BF61-694CDCBC7F3F",
+    "\/Untitled\/Sources\/Untitled\/Untitled.rkassets\/butterbar3.usda" : "B7C36974-11C3-40DD-8016-C4E55538D73C",
+    "\/Untitled\/Sources\/Untitled\/Untitled.rkassets\/butterbar4.usda" : "42132A1E-8A8B-4165-A17A-F158B223D1A7"
+  },
+  "projectID" : 431447775988272288,
+  "uuidToIntID" : {
+    "1FB59CC7-898F-4AEA-A352-DA98F988AE42" : -2483822360215060756,
+    "42132A1E-8A8B-4165-A17A-F158B223D1A7" : -8968072973529849133,
+    "8CA67EE4-1FED-4002-BF61-694CDCBC7F3F" : 1790760897104454767,
+    "B7C36974-11C3-40DD-8016-C4E55538D73C" : 8453629756559211783,
+    "D50DEC87-B3EC-49C8-AF82-E2889C9C3192" : 1814996722306155822
+  }
+}
