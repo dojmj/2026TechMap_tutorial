@@ -29,6 +29,7 @@ def Xform "Root"
             {
                 token outputs:mtlx:surface
                 token outputs:realitykit:vertex
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
             }
 
             over "Material_016"
@@ -59,7 +60,7 @@ def Xform "Root"
                     float inputs:roughness = 0.8
                     token outputs:out
                     float2 ui:nodegraph:node:pos = (-241.16406, 100.11328)
-                    int ui:nodegraph:node:stackingOrder = 21
+                    int ui:nodegraph:node:stackingOrder = 23
                     string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced", "inputs:metallic"]
                 }
             }
