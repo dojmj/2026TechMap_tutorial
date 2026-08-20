@@ -34,6 +34,7 @@ jobs:
             --hosting-base-path 2026TechMap_tutorial \
             --transform-for-static-hosting
 
+          cp .github/pages/index.html ./site/index.html
           touch ./site/.nojekyll
 
       - name: Configure GitHub Pages
