@@ -1,10 +1,3 @@
-//
-//  GraspDetector.swift
-//  WaxBallTutorial
-//
-//  Created by Kimseoyeon on 8/18/26.
-//
-
 import simd
 
 struct GraspDetector {
@@ -12,10 +5,9 @@ struct GraspDetector {
         from fingertip: SIMD3<Float>,
         to wrist: SIMD3<Float>
     ) -> Float {
-        //여기서 거리 계산하고 반환
         simd_distance(fingertip, wrist)
     }
-    
+
     func closureProgress(distance: Float) -> Float {
         let closedDistance: Float = 0.08
         let openDistance: Float = 0.18
@@ -26,7 +18,7 @@ struct GraspDetector {
 
         return min(max(progress, 0), 1)
     }
-    
+
     func graspProgress(
         thumb: SIMD3<Float>,
         index: SIMD3<Float>,
@@ -63,5 +55,4 @@ struct GraspDetector {
             + littleProgress
         ) / 5
     }
-    
 }

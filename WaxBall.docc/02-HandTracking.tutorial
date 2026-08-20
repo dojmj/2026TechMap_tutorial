@@ -50,11 +50,8 @@
             
             @Step {
                 `ARKitSession`은 ARKit의 기능을 실행하고 관리하는 세션입니다.
-                
                 `HandTrackingProvider`는 그중에서도 손의 Tracking 데이터를 제공하는 Provider입니다.
-                
                 따라서 두 객체를 다음과 같이 준비합니다.
-                
                 ARKitSession
                 ↓
                 HandTrackingProvider
@@ -141,9 +138,7 @@
             
             @Step {
                 이제 HandAnchor가 왼손인지 오른손인지 확인합니다.
-                
                 HandAnchor의 `chirality`를 이용하면 손의 방향을 구분할 수 있습니다.
-                
                 왼손이라면 `Left hand detected`,
                 오른손이라면 `Right hand detected`를 출력하도록 합니다.
                 
@@ -196,9 +191,7 @@
             
             @Step {
                 이제 앱을 실제 Apple Vision Pro에서 실행합니다.
-                
                 처음 실행할 때 손 Tracking 권한을 요청할 수 있습니다.
-                
                 손 Tracking을 허용한 뒤 Xcode의 Console을 확인합니다.
             }
         }
@@ -223,9 +216,7 @@
             
             @Step {
                 왼손을 Vision Pro 앞에서 움직여봅니다.
-                
                 Console에 다음과 같은 메시지가 반복해서 출력되는지 확인합니다.
-                
                 👈 Left hand detected
                 
                 @Image(
@@ -236,9 +227,7 @@
             
             @Step {
                 이번에는 오른손을 움직여봅니다.
-                
                 다음과 같은 메시지가 출력되면 오른손 Tracking도 정상적으로 동작하는 것입니다.
-                
                 👉 Right hand detected
                 
                 @Image(
@@ -261,7 +250,6 @@
                 HandAnchor
                 →
                 Left / Right Hand
-                
                 이제 Vision Pro가 사용자의 손을 인식할 수 있게 되었습니다.
                 
                 @Image(
@@ -297,7 +285,6 @@
                 ringFingerTip
                 littleFingerTip
                 wrist
-                
                 각 Joint의 3D 좌표를 얻으면 손가락이 실제로 어떻게 움직이는지 데이터로 확인할 수 있습니다.
             }
             

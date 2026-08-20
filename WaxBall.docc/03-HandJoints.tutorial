@@ -53,9 +53,7 @@
             
             @Step {
                 HandSkeleton을 얻었다면 이제 손가락 끝과 손목에 해당하는 Joint를 가져올 수 있습니다.
-                
                 `joint()` 메서드에 원하는 Joint 이름을 전달하여 해당 Joint를 가져옵니다.
-                
                 여기서는 엄지, 검지, 중지, 약지, 소지의 끝점과 손목을 사용합니다.
                 
                 @Code(
@@ -144,11 +142,8 @@
             
             @Step {
                 먼저 Joint의 Transform과 HandAnchor의 Transform을 결합합니다.
-                
                 `anchorFromJointTransform`은 해당 Joint가 HandAnchor를 기준으로 어디에 위치하는지를 나타냅니다.
-                
                 `originFromAnchorTransform`은 HandAnchor를 World Space 기준으로 변환하는 데 사용됩니다.
-                
                 두 Transform을 곱하면 Joint의 World Transform을 얻을 수 있습니다.
                 
                 @Code(
@@ -159,9 +154,7 @@
             
             @Step {
                 Transform에서 실제 위치 정보만 가져옵니다.
-                
                 Transform의 네 번째 column에는 해당 위치의 x, y, z 값이 들어 있습니다.
-                
                 이를 `SIMD3<Float>` 형태로 반환합니다.
                 
                 @Code(
@@ -198,9 +191,7 @@
             
             @Step {
                 이제 계산된 Position을 이용할 수 있습니다.
-                
                 현재 단계에서는 먼저 Joint의 위치 데이터가 정상적으로 들어오는지 확인하는 것이 목적입니다.
-                
                 손을 움직이면 각 Joint의 3D 좌표가 계속 변화해야 합니다.
             }
         }
@@ -221,25 +212,19 @@
             
             @Step {
                 손을 완전히 펼쳐봅니다.
-                
                 다섯 손가락의 끝 Joint가 서로 다른 위치에 존재하는 것을 확인합니다.
-                
                 손가락을 움직이면 해당 Joint의 좌표도 함께 변화합니다.
             }
             
             @Step {
                 이번에는 손을 천천히 오므려봅니다.
-                
                 손가락이 구부러지면서 각 fingertip Joint의 위치가 변화하는 것을 확인합니다.
-                
                 이 변화가 다음 단계에서 grasp를 계산하기 위한 핵심 데이터가 됩니다.
             }
             
             @Step {
                 마지막으로 손 전체를 공간에서 이동해봅니다.
-                
                 손을 왼쪽이나 오른쪽으로 움직이면 모든 Joint의 World Position이 함께 변화하는 것을 확인할 수 있습니다.
-                
                 이를 통해 우리가 얻은 좌표가 실제 공간을 기준으로 하는 3D 좌표임을 확인할 수 있습니다.
             }
         }
