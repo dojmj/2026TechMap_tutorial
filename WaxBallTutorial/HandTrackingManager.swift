@@ -6,8 +6,17 @@ final class HandTrackingManager {
 
     let session = ARKitSession()
     let handTracking = HandTrackingProvider()
+    let waxBallController = WaxBallController()
+    private let graspDetector = GraspDetector()
+    
+    private var leftGraspProgress: Float = 0
+    private var rightGraspProgress: Float = 0
 
     func startTracking() async {
+        guard HandTrackingProvider.isSupported else {
+            print("이 실행 환경은 Hand Tracking을 지원하지 않습니다.")
+            return
+        }
         do {
             try await session.run([
                 handTracking
@@ -29,10 +38,20 @@ final class HandTrackingManager {
             let handAnchor = update.anchor
 
             guard handAnchor.isTracked else {
+                setGraspProgress(
+                    0,
+                    for: handAnchor.chirality
+                )
+                updateWaxBall()
                 continue
             }
 
             guard let skeleton = handAnchor.handSkeleton else {
+                setGraspProgress(
+                    0,
+                    for: handAnchor.chirality
+                )
+                updateWaxBall()
                 continue
             }
 
@@ -76,6 +95,36 @@ final class HandTrackingManager {
                 wrist,
                 from: handAnchor
             )
+            
+            let indexDistance = graspDetector.fingerDistance(
+                from: indexPosition,
+                to: wristPosition
+            )
+            print("검지와 손목 사이 거리:", indexDistance)
+            
+            let indexProgress = graspDetector.closureProgress(
+                distance: indexDistance
+            )
+
+            print("검지 접힘 정도:", indexProgress)
+            
+            let graspProgress = graspDetector.graspProgress(
+                thumb: thumbPosition,
+                index: indexPosition,
+                middle: middlePosition,
+                ring: ringPosition,
+                little: littlePosition,
+                wrist: wristPosition
+            )
+
+            print("\(handAnchor.chirality) graspProgress:", graspProgress)
+
+            setGraspProgress(
+                graspProgress,
+                for: handAnchor.chirality
+            )
+
+            updateWaxBall()
 
             // MARK: - Debug
 
@@ -92,6 +141,31 @@ final class HandTrackingManager {
             ---
             """)
         }
+    }
+
+    private func setGraspProgress(
+        _ progress: Float,
+        for chirality: HandAnchor.Chirality
+    ) {
+        switch chirality {
+        case .left:
+            leftGraspProgress = progress
+        case .right:
+            rightGraspProgress = progress
+        }
+    }
+
+    private func updateWaxBall() {
+        let twoHandProgress = min(
+            leftGraspProgress,
+            rightGraspProgress
+        )
+
+        print("양손 graspProgress:", twoHandProgress)
+
+        waxBallController.update(
+            graspProgress: twoHandProgress
+        )
     }
 
     private func getJointPosition(
