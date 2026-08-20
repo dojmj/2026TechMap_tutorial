@@ -7,7 +7,7 @@
         RealityKit의 왁뿌볼 인터랙션에 연결합니다.
         
         @Image(
-               source: "hero.png",
+               source: Step02-04,
                alt: "Vision Pro에서 왁뿌볼을 양손으로 누르는 모습"
                )
     }
@@ -18,7 +18,7 @@
         RealityKit Scene을 준비합니다.
         
         @Image(
-               source: "chapter1.png",
+               source: Step01-01,
                alt: "visionOS 프로젝트 설정"
                )
         
@@ -33,7 +33,7 @@
         사용자의 손을 추적합니다.
         
         @Image(
-               source: "chapter2.png",
+               source: Step02-01,
                alt: "Vision Pro Hand Tracking"
                )
         
@@ -48,7 +48,7 @@
         위치를 가져옵니다.
         
         @Image(
-               source: "chapter3.png",
+               source: Step02-04,
                alt: "Hand Skeleton Joint"
                )
         
@@ -61,6 +61,11 @@
         
         Fingertip과 손의 기준점 사이의
         3D 거리를 계산합니다.
+
+        @Image(
+               source: Step02-03,
+               alt: "손가락 거리값을 확인하는 Xcode Console"
+               )
         
         @TutorialReference(
                            tutorial: "doc:04-FingerDistance"
@@ -71,6 +76,11 @@
         
         거리값을 0에서 1 사이의
         손가락 접힘 값으로 변환합니다.
+
+        @Image(
+               source: Step02-04,
+               alt: "손가락을 오므려 graspProgress를 만드는 모습"
+               )
         
         @TutorialReference(
                            tutorial: "doc:05-GraspProgress"
@@ -81,6 +91,11 @@
         
         graspProgress를 RealityKit Entity에 연결해
         공을 실시간으로 변형합니다.
+
+        @Image(
+               source: Step01-03,
+               alt: "RealityKit에서 표시한 왁뿌볼 모델"
+               )
         
         @TutorialReference(
                            tutorial: "doc:06-WaxBallDeformation"
@@ -91,6 +106,11 @@
         
         Threshold를 넘었을 때
         공의 파손 효과를 실행합니다.
+
+        @Image(
+               source: Step01-03,
+               alt: "파괴 단계가 적용되는 왁뿌볼 모델"
+               )
         
         @TutorialReference(
                            tutorial: "doc:07-BreakInteraction"
@@ -101,6 +121,11 @@
         
         왼손과 오른손의 값을 결합해
         최종 양손 인터랙션을 완성합니다.
+
+        @Image(
+               source: Step02-04,
+               alt: "양손으로 왁뿌볼을 누르는 모습"
+               )
         
         @TutorialReference(
                            tutorial: "doc:08-TwoHandSqueeze"

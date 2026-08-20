@@ -1,28 +1,248 @@
-@Tutorial(time: <#number#>) {
-    @Intro(title: "<#text#>") {
-        <#text#>
+@Tutorial(time: 12) {
+    
+    @Intro(title: "graspProgress로 왁뿌볼 눌러보기") {
+        앞 단계에서는 손가락의 접힘 정도를 `0.0`부터 `1.0` 사이의 `graspProgress`로 표현했습니다.
         
-        @Image(source: <#file#>, alt: "<#accessible description#>")
+        이번 단계에서는 이 값을 RealityKit Entity의 크기에 연결합니다.
+        
+        오른손을 오므리면 왁뿌볼이 위아래로 눌리고 옆으로 퍼지며, 손을 펼치면 원래 형태로 돌아옵니다.
     }
     
-    @Section(title: "<#text#>") {
+    
+    @Section(title: "지금까지의 흐름 확인하기") {
         @ContentAndMedia {
-            <#text#>
+            지금까지는 손동작을 추적하고 계산한 결과를 Xcode Console에서 숫자로 확인했습니다.
             
-            @Image(source: <#file#>, alt: "<#accessible description#>")
+            이제 그 숫자를 3D 오브젝트의 변화로 연결합니다.
+            
+            Hand Tracking
+            ↓
+            Joint Position
+            ↓
+            Finger Distance
+            ↓
+            graspProgress
+            ↓
+            Wax Ball Deformation ← 이번 단계
+            ↓
+            Break Interaction ← 다음 단계
+            
+            이번 단계에서는 왁뿌볼을 부수지 않습니다. 손동작에 따라 형태가 변하고 다시 돌아오는 것까지 구현합니다.
         }
         
         @Steps {
             @Step {
-                <#text#>
-                
-                @Image(source: <#file#>, alt: "<#accessible description#>")
+                `graspProgress`가 `0.0`에 가까우면 손을 펼친 상태이므로 왁뿌볼의 원래 형태를 유지합니다.
             }
             
             @Step {
-                <#text#>
+                `graspProgress`가 `1.0`에 가까워질수록 손을 오므린 상태이므로 왁뿌볼을 더 많이 누릅니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "WaxBallController의 역할 이해하기") {
+        @ContentAndMedia {
+            `HandTrackingManager`는 손 데이터를 가져오고 `graspProgress`를 계산합니다.
+            
+            RealityKit Entity의 형태를 바꾸는 일은 `WaxBallController`가 담당합니다.
+            
+            HandTrackingManager
+            ↓ graspProgress 전달
+            WaxBallController
+            ↓ scale 변경
+            Wax Ball Entity
+            
+            역할을 나누면 손 추적 코드와 3D 오브젝트 코드를 각각 이해하기 쉬워집니다.
+        }
+        
+        @Steps {
+            @Step {
+                `WaxBallController.swift`에 RealityKit을 불러오고 `WaxBallController` 클래스를 선언합니다.
+            }
+            
+            @Step {
+                왁뿌볼 Entity와 처음 크기를 저장할 프로퍼티를 추가합니다.
                 
-                @Code(name: "<#display name#>", file: <#filename.swift#>)
+                @Code(
+                    name: "WaxBallController 준비하기",
+                    file: 06-WaxBallDeformation-01.swift
+                )
+            }
+        }
+    }
+    
+    
+    @Section(title: "변형할 Entity 연결하기") {
+        @ContentAndMedia {
+            `WaxBallController`가 Entity를 변경하려면 어떤 Entity를 다룰지 먼저 알아야 합니다.
+            
+            `connect(to:)` 함수는 ImmersiveView에서 생성한 왁뿌볼 Entity를 전달받아 저장합니다.
+            
+            이때 Entity의 처음 scale도 `originalScale`에 저장합니다. 손을 다시 펼쳤을 때 모델이 원래 크기로 돌아가기 위해 필요합니다.
+        }
+        
+        @Steps {
+            @Step {
+                `waxBall`의 타입이 `Entity?`인 이유는 RealityView가 Entity를 불러오기 전에는 아직 연결할 대상이 없기 때문입니다.
+            }
+            
+            @Step {
+                `connect(to:)`가 호출되면 전달받은 Entity와 해당 Entity의 처음 scale을 함께 저장합니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "Entity의 scale 이해하기") {
+        @ContentAndMedia {
+            RealityKit Entity의 `transform.scale`에는 x, y, z 세 방향의 크기가 들어 있습니다.
+            
+            x는 가로, y는 높이, z는 깊이 방향의 크기를 나타냅니다.
+            
+            `SIMD3<Float>(1, 1, 1)`은 원래 크기이고, 각 값이 작아지면 해당 방향으로 줄어들며 커지면 해당 방향으로 늘어납니다.
+        }
+        
+        @Steps {
+            @Step {
+                y 값을 줄이면 왁뿌볼의 높이가 낮아져 위아래로 눌린 것처럼 보입니다.
+            }
+            
+            @Step {
+                x와 z 값을 조금 늘리면 눌린 만큼 옆으로 퍼지는 것처럼 보입니다.
+            }
+            
+            @Step {
+                이번 단계에서는 최대 변형을 `x: 1.15`, `y: 0.65`, `z: 1.15`로 설정합니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "graspProgress로 scale 계산하기") {
+        @ContentAndMedia {
+            `update(graspProgress:)` 함수는 현재 손의 접힘 정도를 받아 새로운 scale을 계산합니다.
+            
+            `graspProgress`가 `0.0`이면 변형값은 `(1.0, 1.0, 1.0)`이므로 원래 형태를 유지합니다.
+            
+            `graspProgress`가 `1.0`이면 변형값은 `(1.15, 0.65, 1.15)`가 되어 높이는 줄고 가로와 깊이는 늘어납니다.
+        }
+        
+        @Steps {
+            @Step {
+                먼저 `min()`과 `max()`를 사용해 전달받은 값이 `0.0...1.0` 범위를 벗어나지 않도록 제한합니다.
+            }
+            
+            @Step {
+                제한한 Progress를 이용해 x, y, z 방향의 변형값을 계산하고 처음 scale에 곱합니다.
+                
+                @Code(
+                    name: "graspProgress로 왁뿌볼 변형하기",
+                    file: 06-WaxBallDeformation-02.swift
+                )
+            }
+        }
+    }
+    
+    
+    @Section(title: "ImmersiveView에서 왁뿌볼 연결하기") {
+        @ContentAndMedia {
+            `WaxBallController`를 만들었지만 아직 어떤 Entity를 바꿀지는 연결되지 않았습니다.
+            
+            `ImmersiveView`에서 `butterbar1`을 불러온 직후 `connect(to:)`를 호출해 해당 Entity를 Controller에 전달합니다.
+        }
+        
+        @Steps {
+            @Step {
+                `Entity(named:)`로 불러온 `butterbar`를 `WaxBallController`에 연결합니다.
+                
+                @Code(
+                    name: "왁뿌볼 Entity 연결하기",
+                    file: 06-WaxBallDeformation-03.swift
+                )
+            }
+            
+            @Step {
+                같은 Entity를 `content.add()`로 RealityView에 추가하므로 화면에 보이는 오브젝트와 Controller가 변경하는 오브젝트가 같아집니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "HandTrackingManager에서 변형 요청하기") {
+        @ContentAndMedia {
+            마지막으로 `HandTrackingManager`가 계산한 `graspProgress`를 `WaxBallController`에 전달합니다.
+            
+            이번 단계에서는 동작을 단순하게 확인하기 위해 오른손만 사용합니다. 왼손과 오른손을 함께 사용하는 기능은 마지막 단계에서 구현합니다.
+        }
+        
+        @Steps {
+            @Step {
+                `HandTrackingManager` 안에 `WaxBallController` 인스턴스를 만들고, 현재 추적 중인 손이 오른손인지 확인합니다.
+                
+                @Code(
+                    name: "오른손으로 왁뿌볼 제어하기",
+                    file: 06-WaxBallDeformation-04.swift
+                )
+            }
+            
+            @Step {
+                `graspProgress`를 계산한 직후 `update(graspProgress:)`에 전달하면 새로운 HandAnchor가 들어올 때마다 Entity의 scale도 갱신됩니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "실제로 확인해보기") {
+        @ContentAndMedia {
+            Apple Vision Pro에서 앱을 실행하고 오른손을 천천히 펼치고 오므려봅니다.
+            
+            이번 단계의 목표는 Console에 있던 숫자가 실제 3D 형태의 변화로 연결되는 것을 확인하는 것입니다.
+        }
+        
+        @Steps {
+            @Step {
+                오른손을 펼쳤을 때 왁뿌볼이 원래 형태에 가까운지 확인합니다.
+            }
+            
+            @Step {
+                오른손을 천천히 오므리면서 왁뿌볼의 높이가 낮아지고 옆으로 퍼지는지 확인합니다.
+            }
+            
+            @Step {
+                오른손을 다시 펼쳤을 때 왁뿌볼이 원래 형태로 돌아오는지 확인합니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "다음 단계에서는 무엇을 할까?") {
+        @ContentAndMedia {
+            이제 손의 움직임이 왁뿌볼의 형태 변화로 이어집니다.
+            
+            지금까지 완성한 흐름은 다음과 같습니다.
+            
+            Hand Tracking
+            ↓
+            Joint Position
+            ↓
+            Finger Distance
+            ↓
+            graspProgress
+            ↓
+            Wax Ball Scale
+            
+            다음 단계에서는 손을 충분히 오므렸을 때 왁뿌볼이 부서지도록 조건을 추가합니다.
+        }
+        
+        @Steps {
+            @Step {
+                현재는 `graspProgress`가 커져도 왁뿌볼의 형태만 변하고 다시 원래대로 돌아옵니다.
+            }
+            
+            @Step {
+                다음 단계인 `07-BreakInteraction`에서는 Progress가 기준값을 넘었는지 확인하고 파괴 상태로 전환합니다.
             }
         }
     }
