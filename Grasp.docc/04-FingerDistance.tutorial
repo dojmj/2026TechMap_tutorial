@@ -1,0 +1,249 @@
+@Tutorial(time: 10) {
+    
+    @Intro(title: "손가락 거리 계산하기") {
+        앞 단계에서는 Hand Skeleton에서 손가락 끝과 손목의 3D 위치를 가져왔습니다.
+        
+        이번 단계에서는 두 위치 사이의 거리를 계산해 손가락을 펼쳤을 때와 접었을 때 어떤 차이가 생기는지 확인합니다.
+        
+        이 거리값은 다음 단계에서 손의 접힘 정도인 `graspProgress`를 만드는 재료가 됩니다.
+    }
+    
+    
+    @Section(title: "지금까지의 흐름 확인하기") {
+        @ContentAndMedia {
+            지금까지 Vision Pro가 손을 인식하고, Hand Skeleton에서 필요한 Joint를 찾은 뒤, 각 Joint의 World Position을 계산했습니다.
+            
+            현재 위치와 앞으로의 흐름은 다음과 같습니다.
+            
+            Hand Tracking
+            ↓
+            Hand Skeleton
+            ↓
+            Joint Position
+            ↓
+            Finger Distance ← 이번 단계
+            ↓
+            graspProgress ← 다음 단계
+            ↓
+            Sphere Visibility
+            
+            이번 단계에서는 아직 손 전체의 접힘 정도를 계산하지 않습니다. 먼저 손가락 하나의 거리 변화를 확인합니다.
+        }
+        
+        @Steps {
+            @Step {
+                손가락 끝과 손목은 각각 `SIMD3<Float>` 타입의 3D 위치로 표현됩니다.
+            }
+            
+            @Step {
+                두 위치 사이의 거리를 계산하면 손가락을 펼치거나 접을 때 나타나는 변화를 하나의 숫자로 확인할 수 있습니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "좌표와 거리의 차이 이해하기") {
+        @ContentAndMedia {
+            Joint Position에는 공간상의 x, y, z 좌표가 들어 있습니다.
+            
+            손 전체를 옆으로 움직이면 손가락 끝과 손목의 좌표가 모두 바뀝니다. 하지만 두 Joint가 함께 움직이므로 두 점 사이의 거리는 크게 달라지지 않습니다.
+            
+            좌표는 Joint가 어디에 있는지를 나타내고, 거리는 두 Joint가 얼마나 떨어져 있는지를 나타냅니다.
+        }
+        
+        @Steps {
+            @Step {
+                손가락을 펼치면 손가락 끝이 손목에서 멀어지므로 거리가 커집니다.
+            }
+            
+            @Step {
+                손가락을 접으면 손가락 끝이 손바닥과 손목 방향으로 이동하므로 거리가 작아집니다.
+            }
+            
+            @Step {
+                따라서 손가락 끝과 손목 사이의 거리는 손가락이 접히는 변화를 관찰하는 간단한 기준으로 사용할 수 있습니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "GraspDetector 준비하기") {
+        @ContentAndMedia {
+            거리 계산은 `GraspDetector`가 담당합니다.
+            
+            `HandTrackingManager`는 ARKit에서 손 데이터를 가져오는 역할을 하고, `GraspDetector`는 전달받은 위치를 계산하는 역할을 합니다.
+            
+            HandTrackingManager
+            ↓ Joint Position 전달
+            GraspDetector
+            ↓ Distance 반환
+            HandTrackingManager
+            
+            역할을 나누면 손 추적 코드와 계산 코드를 따로 읽을 수 있습니다.
+        }
+        
+        @Steps {
+            @Step {
+                새로운 `GraspDetector.swift` 파일을 만들고 `simd` 모듈을 불러옵니다. `simd`는 3D 벡터와 거리 계산 기능을 제공합니다.
+                변경 유형은 새 Swift 파일 추가이고, 작업 위치는 `Grasp/GraspDetector.swift`입니다.
+            }
+            
+            @Step {
+                관련된 계산 기능을 담을 `GraspDetector` 구조체를 선언합니다.
+                이 파일은 Hand Tracking 데이터를 직접 가져오지 않습니다. 전달받은 Joint 위치를 계산하는 역할만 담당합니다.
+                
+                @Code(
+                    name: "+ 새 파일: GraspDetector.swift",
+                    file: 04-FingerDistance-01.swift
+                )
+            }
+        }
+    }
+    
+    
+    @Section(title: "두 위치 사이의 거리 계산하기") {
+        @ContentAndMedia {
+            `simd_distance()` 함수는 두 개의 `SIMD3<Float>` 값을 받아 두 점 사이의 거리를 반환합니다.
+            
+            이번에는 첫 번째 위치로 손가락 끝을, 두 번째 위치로 손목을 전달합니다.
+            
+            Fingertip Position
+            ↓
+            simd_distance()
+            ↑
+            Wrist Position
+            ↓
+            Distance
+            
+            ARKit의 공간 좌표를 사용하므로 계산된 거리의 단위는 미터입니다.
+        }
+        
+        @Steps {
+            @Step {
+                `fingerDistance()` 함수는 `fingertip`과 `wrist`라는 두 위치를 입력으로 받습니다.
+                변경 유형은 새 메서드 추가이고, 작업 위치는 `GraspDetector` 구조체 내부입니다.
+            }
+            
+            @Step {
+                함수 선언 뒤의 `-> Float`는 계산이 끝난 뒤 `Float` 값 하나를 반환한다는 의미입니다.
+            }
+            
+            @Step {
+                함수 본문이 `simd_distance(fingertip, wrist)`라는 하나의 표현식으로 이루어져 있으므로 Swift가 계산 결과를 반환값으로 사용합니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "검지의 거리 확인하기") {
+        @ContentAndMedia {
+            이제 `HandTrackingManager`에서 `GraspDetector`를 만들고 실제 검지 끝 위치와 손목 위치를 전달합니다.
+            
+            처음에는 손가락 하나만 확인합니다. 검지의 거리 변화가 정상적으로 보이면 같은 함수를 다른 손가락에도 사용할 수 있습니다.
+        }
+        
+        @Steps {
+            @Step {
+                `HandTrackingManager` 안에 `GraspDetector` 인스턴스를 만듭니다. `private let`은 이 인스턴스를 클래스 내부에서 사용하고 다른 인스턴스로 교체하지 않는다는 의미입니다.
+                변경 유형은 기존 파일 수정이고, 작업 위치는 `Grasp/HandTrackingManager.swift`의 프로퍼티 영역입니다.
+            }
+            
+            @Step {
+                검지 끝 위치인 `indexPosition`과 손목 위치인 `wristPosition`을 `fingerDistance()`에 전달합니다.
+                변경 유형은 기존 메서드 수정이고, 작업 위치는 `processHandUpdates()` 안에서 `indexPosition`과 `wristPosition`을 계산한 바로 다음입니다.
+                
+                @Code(
+                    name: "수정할 파일: HandTrackingManager.swift",
+                    file: 04-FingerDistance-02.swift
+                )
+            }
+            
+            @Step {
+                반환된 값은 `indexDistance`에 저장하고 Xcode Console에 출력합니다.
+                확인할 결과는 손을 펼쳤을 때보다 검지를 접었을 때 `indexDistance`가 작아지는지 보는 것입니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "다섯 손가락의 거리 확인하기") {
+        @ContentAndMedia {
+            검지에서 거리 변화가 확인되면 같은 `fingerDistance()` 함수를 엄지, 중지, 약지, 소지에도 사용합니다.
+            
+            새로운 거리 계산 방법을 만드는 것이 아니라, 입력하는 손가락 위치만 바꾸어 같은 함수를 반복해서 사용합니다.
+        }
+        
+        @Steps {
+            @Step {
+                다섯 손가락 끝 위치를 각각 손목 위치와 함께 `fingerDistance()`에 전달합니다.
+                변경 유형은 기존 메서드 확장이고, 작업 위치는 `processHandUpdates()` 안에서 검지 거리 확인 코드를 다섯 손가락 거리 계산 코드로 확장하는 부분입니다.
+                
+                @Code(
+                    name: "수정할 파일: HandTrackingManager.swift",
+                    file: 04-FingerDistance-03.swift
+                )
+            }
+            
+            @Step {
+                각 결과는 `thumbDistance`, `indexDistance`, `middleDistance`, `ringDistance`, `littleDistance`에 저장됩니다.
+            }
+            
+            @Step {
+                모든 값의 단위는 미터이며, 손가락마다 길이가 다르므로 서로 다른 거리값이 나오는 것이 정상입니다.
+                확인할 결과는 다섯 값이 모두 출력되고, 손가락을 오므릴수록 여러 거리값이 함께 줄어드는 것입니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "실제로 확인해보기") {
+        @ContentAndMedia {
+            Apple Vision Pro에서 앱을 실행하고 Xcode Console을 확인합니다.
+            
+            이번 단계의 목표는 특정한 숫자를 만드는 것이 아니라, 손가락을 접을수록 거리가 작아지는 관계를 확인하는 것입니다.
+        }
+        
+        @Steps {
+            @Step {
+                손을 완전히 펼치고 각 손가락의 거리값을 확인합니다.
+            }
+            
+            @Step {
+                손가락을 천천히 접으면서 해당 손가락의 거리값이 작아지는지 확인합니다.
+            }
+            
+            @Step {
+                손 모양을 유지한 채 손 전체를 왼쪽이나 오른쪽으로 옮겨봅니다. Joint의 좌표는 달라지지만 손가락 끝과 손목 사이의 거리는 크게 달라지지 않아야 합니다.
+            }
+        }
+    }
+    
+    
+    @Section(title: "다음 단계에서는 무엇을 할까?") {
+        @ContentAndMedia {
+            이제 손가락 끝과 손목의 3D 위치를 하나의 거리값으로 바꿀 수 있습니다.
+            
+            지금까지의 흐름은 다음과 같습니다.
+            
+            Joint Position
+            ↓
+            fingerDistance()
+            ↓
+            Finger Distance
+            
+            하지만 미터 단위의 거리만으로는 손을 얼마나 오므렸는지 한눈에 이해하기 어렵습니다.
+            
+            다음 단계에서는 펼친 상태를 `0.0`, 접은 상태를 `1.0`으로 표현합니다.
+        }
+        
+        @Steps {
+            @Step {
+                다음 단계에서는 펼친 거리와 접은 거리의 기준을 정하고, 현재 거리를 그 사이의 값으로 변환합니다.
+            }
+            
+            @Step {
+                다음 단계인 `05-GraspProgress`에서는 다섯 손가락의 접힘 값을 합쳐 손 전체의 `graspProgress`를 만듭니다.
+            }
+        }
+    }
+}

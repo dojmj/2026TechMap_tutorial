@@ -1,0 +1,112 @@
+@Tutorials(name: "Vision Pro Hand Skeleton으로 Grasp 인식하기") {
+    
+    @Intro(title: "손을 쥐면 Sphere가 사라지게 만들어보세요") {
+        
+        Apple Vision Pro의 Hand Skeleton Joint 데이터를 분석해
+        손가락의 접힘 정도를 `graspProgress`로 변환하고,
+        RealityKit의 기본 Sphere 표시 여부에 연결합니다.
+
+        최종 결과는 손을 펼치면 Sphere가 보이고,
+        손을 충분히 쥐면 Sphere가 사라지는 간단한 경험입니다.
+        
+        각 Chapter에서는 먼저 지금 만드는 기능의 목적을 확인하고,
+        코드를 넣을 파일과 위치, 실행 후 확인할 결과를 차례로 살펴봅니다.
+        
+        @Image(
+               source: Step02-04,
+               alt: "Vision Pro에서 손을 쥐는 정도를 확인하는 모습"
+               )
+    }
+    
+    @Chapter(name: "프로젝트 시작하기") {
+        
+        visionOS 프로젝트를 생성하고
+        RealityKit Scene을 준비합니다.
+        
+        @Image(
+               source: Step01-01,
+               alt: "visionOS 프로젝트 설정"
+               )
+        
+        @TutorialReference(
+                           tutorial: "doc:01-ProjectSetup"
+                           )
+    }
+    
+    @Chapter(name: "Hand Tracking 시작하기") {
+        
+        ARKitSession과 HandTrackingProvider를 사용해
+        사용자의 손을 추적합니다.
+        
+        @Image(
+               source: Step02-01,
+               alt: "Vision Pro Hand Tracking"
+               )
+        
+        @TutorialReference(
+                           tutorial: "doc:02-HandTracking"
+                           )
+    }
+    
+    @Chapter(name: "Hand Skeleton 분석하기") {
+        
+        HandAnchor에서 각 손가락 Joint의
+        위치를 가져옵니다.
+        
+        @Image(
+               source: Step02-04,
+               alt: "Hand Skeleton Joint"
+               )
+        
+        @TutorialReference(
+                           tutorial: "doc:03-HandJoints"
+                           )
+    }
+    
+    @Chapter(name: "손가락 거리 계산하기") {
+        
+        Fingertip과 손의 기준점 사이의
+        3D 거리를 계산합니다.
+
+        @Image(
+               source: Step02-03,
+               alt: "손가락 거리값을 확인하는 Xcode Console"
+               )
+        
+        @TutorialReference(
+                           tutorial: "doc:04-FingerDistance"
+                           )
+    }
+    
+    @Chapter(name: "graspProgress 만들기") {
+        
+        거리값을 0에서 1 사이의
+        손가락 접힘 값으로 변환합니다.
+
+        @Image(
+               source: Step02-04,
+               alt: "손가락을 오므려 graspProgress를 만드는 모습"
+               )
+        
+        @TutorialReference(
+                           tutorial: "doc:05-GraspProgress"
+                           )
+    }
+    
+    @Chapter(name: "Sphere 표시/숨김 연결하기") {
+        
+        graspProgress를 RealityKit Entity에 연결해
+        손을 펼치면 Sphere를 보여주고, 손을 쥐면 Sphere를 숨깁니다.
+
+        [IMAGE NEEDED: Vision Pro에서 Grasp 앱을 실행해 앞쪽 Sphere와 손동작을 함께 보여주는 최종 화면]
+
+        @Image(
+               source: Step01-03,
+               alt: "RealityKit에서 표시한 Sphere"
+               )
+        
+        @TutorialReference(
+                           tutorial: "doc:06-SphereVisibility"
+                           )
+    }
+}
