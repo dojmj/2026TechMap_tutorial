@@ -29,7 +29,7 @@ jobs:
 
       - name: Build DocC website
         run: |
-          xcrun docc convert WaxBall.docc \
+          xcrun docc convert Grasp.docc \
             --output-path ./site \
             --hosting-base-path 2026TechMap_tutorial \
             --transform-for-static-hosting
