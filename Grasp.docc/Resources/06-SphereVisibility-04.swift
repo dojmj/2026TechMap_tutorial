@@ -6,7 +6,7 @@ guard handAnchor.isTracked else {
     continue
 }
 
-guard let handSkeleton = handAnchor.handSkeleton else {
+guard let skeleton = handAnchor.handSkeleton else {
     setGraspProgress(0, for: handAnchor.chirality)
     updateGraspSphere()
     continue

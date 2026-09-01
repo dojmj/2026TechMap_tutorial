@@ -69,7 +69,7 @@
                 변경 유형은 새 Swift 파일 추가이고, 작업 위치는 `Grasp/GraspController.swift`입니다.
                 
                 @Code(
-                    name: "GraspController 준비하기",
+                    name: "+ 새 파일: GraspController.swift",
                     file: 06-SphereVisibility-01.swift
                 )
             }
@@ -107,7 +107,7 @@
                 변경 유형은 기존 파일 수정이고, 작업 위치는 `Grasp/ImmersiveView.swift`의 `RealityView` content 클로저 내부입니다.
                 
                 @Code(
-                    name: "RealityKit Sphere 생성하기",
+                    name: "수정할 파일: ImmersiveView.swift",
                     file: 06-SphereVisibility-02.swift
                 )
             }
@@ -148,7 +148,7 @@
                 변경 유형은 기존 메서드 수정이고, 작업 위치는 `processHandUpdates()` 안에서 `graspProgress` 계산 직후입니다.
                 
                 @Code(
-                    name: "graspProgress를 Sphere 표시 여부에 연결하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 06-SphereVisibility-03.swift
                 )
             }
@@ -158,7 +158,7 @@
                 이렇게 해야 이전 프레임의 높은 `graspProgress`가 남아 Sphere가 계속 숨겨지는 상황을 피할 수 있습니다.
                 
                 @Code(
-                    name: "Tracking이 끊겼을 때 grasp 값 초기화하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 06-SphereVisibility-04.swift
                 )
             }

@@ -166,7 +166,7 @@
                 변경 유형은 Xcode가 만든 기본 파일 확인이고, 작업 위치는 `Grasp/GraspApp.swift`입니다.
                 
                 @Code(
-                    name: "GraspApp.swift",
+                    name: "확인할 파일: GraspApp.swift",
                     file: 01-ProjectSetup-01.swift
                 )
             }
@@ -179,7 +179,7 @@
                 확인할 결과는 앱을 실행하면 먼저 `ContentView`가 들어 있는 Window가 열리는 것입니다.
                 
                 @Code(
-                    name: "App의 기본 Window",
+                    name: "확인할 파일: GraspApp.swift",
                     file: 01-ProjectSetup-01.swift
                 )
             }
@@ -191,7 +191,7 @@
                 변경 유형은 Xcode가 만든 기본 파일 확인이고, 작업 위치는 `Grasp/ContentView.swift`입니다.
                 
                 @Code(
-                    name: "ContentView.swift",
+                    name: "확인할 파일: ContentView.swift",
                     file: 01-ProjectSetup-02.swift
                 )
             }
@@ -204,7 +204,7 @@
                 변경 유형은 Xcode가 만든 기본 파일 확인이고, 작업 위치는 `Grasp/ImmersiveView.swift`입니다.
                 
                 @Code(
-                    name: "ImmersiveView.swift",
+                    name: "확인할 파일: ImmersiveView.swift",
                     file: 01-ProjectSetup-03.swift
                 )
             }

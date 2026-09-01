@@ -67,7 +67,7 @@
                 변경 유형은 새 메서드 추가이고, 작업 위치는 `Grasp/GraspDetector.swift`의 `GraspDetector` 구조체 내부입니다.
                 
                 @Code(
-                    name: "거리를 손가락 접힘 정도로 변환하기",
+                    name: "수정할 파일: GraspDetector.swift",
                     file: 05-GraspProgress-01.swift
                 )
             }
@@ -138,7 +138,7 @@
                 변경 유형은 새 메서드 추가이고, 작업 위치는 `Grasp/GraspDetector.swift`의 `GraspDetector` 구조체 내부입니다.
                 
                 @Code(
-                    name: "다섯 손가락의 graspProgress 계산하기",
+                    name: "수정할 파일: GraspDetector.swift",
                     file: 05-GraspProgress-02.swift
                 )
             }
@@ -189,7 +189,7 @@
                 변경 유형은 기존 메서드 수정이고, 작업 위치는 `processHandUpdates()` 안에서 다섯 손가락 Position과 `wristPosition`을 계산한 다음입니다.
                 
                 @Code(
-                    name: "실제 손 위치로 graspProgress 계산하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 05-GraspProgress-03.swift
                 )
             }

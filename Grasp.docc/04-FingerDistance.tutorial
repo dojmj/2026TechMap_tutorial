@@ -93,7 +93,7 @@
                 이 파일은 Hand Tracking 데이터를 직접 가져오지 않습니다. 전달받은 Joint 위치를 계산하는 역할만 담당합니다.
                 
                 @Code(
-                    name: "GraspDetector와 거리 함수 만들기",
+                    name: "+ 새 파일: GraspDetector.swift",
                     file: 04-FingerDistance-01.swift
                 )
             }
@@ -153,7 +153,7 @@
                 변경 유형은 기존 메서드 수정이고, 작업 위치는 `processHandUpdates()` 안에서 `indexPosition`과 `wristPosition`을 계산한 바로 다음입니다.
                 
                 @Code(
-                    name: "검지와 손목 사이의 거리 확인하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 04-FingerDistance-02.swift
                 )
             }
@@ -179,7 +179,7 @@
                 변경 유형은 기존 메서드 확장이고, 작업 위치는 `processHandUpdates()` 안에서 검지 거리 확인 코드를 다섯 손가락 거리 계산 코드로 확장하는 부분입니다.
                 
                 @Code(
-                    name: "다섯 손가락의 거리 계산하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 04-FingerDistance-03.swift
                 )
             }

@@ -36,6 +36,7 @@ jobs:
 
           cp .github/pages/index.html ./site/index.html
           touch ./site/.nojekyll
+          python3 .github/pages/enhance-docc-site.py ./site /2026TechMap_tutorial/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

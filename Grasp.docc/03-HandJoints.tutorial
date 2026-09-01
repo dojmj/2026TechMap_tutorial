@@ -47,7 +47,7 @@
                 변경 유형은 기존 메서드 수정이고, 작업 위치는 `Grasp/HandTrackingManager.swift`의 `processHandUpdates()` 안에서 `isTracked`를 확인한 다음입니다.
                 
                 @Code(
-                    name: "HandSkeleton 가져오기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-01.swift
                 )
             }
@@ -59,7 +59,7 @@
                 변경 유형은 기존 메서드에 Joint 선택 코드를 추가하는 것이고, 작업 위치는 방금 가져온 `handSkeleton` 아래입니다.
                 
                 @Code(
-                    name: "손가락 Joint 가져오기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-02.swift
                 )
             }
@@ -95,7 +95,7 @@
                 변경 유형은 코드 변경 없음이고, Joint 역할을 확인합니다.
                 
                 @Code(
-                    name: "Thumb Tip",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-02.swift
                 )
             }
@@ -105,7 +105,7 @@
                 변경 유형은 코드 변경 없음이고, Joint 역할을 확인합니다.
                 
                 @Code(
-                    name: "Finger Tips",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-02.swift
                 )
             }
@@ -115,7 +115,7 @@
                 변경 유형은 코드 변경 없음이고, 기준 Joint 역할을 확인합니다.
                 
                 @Code(
-                    name: "Wrist",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-02.swift
                 )
             }
@@ -160,7 +160,7 @@
                 변경 유형은 새 helper 메서드 추가이고, 작업 위치는 `Grasp/HandTrackingManager.swift`의 `HandTrackingManager` 클래스 내부에서 `processHandUpdates()` 바깥입니다.
                 
                 @Code(
-                    name: "Joint의 World Transform 계산",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-03.swift
                 )
             }
@@ -173,7 +173,7 @@
                 `.x`, `.y`, `.z`만 꺼내면 RealityKit 공간에서 사용할 수 있는 3D 위치가 됩니다.
                 
                 @Code(
-                    name: "Joint Position 추출",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-03.swift
                 )
             }
@@ -200,7 +200,7 @@
                 변경 유형은 기존 메서드 수정이고, 작업 위치는 `processHandUpdates()` 안에서 Joint를 모두 가져온 다음입니다.
                 
                 @Code(
-                    name: "각 Joint의 Position 가져오기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 03-HandJoints-03.swift
                 )
             }

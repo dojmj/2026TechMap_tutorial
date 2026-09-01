@@ -44,7 +44,7 @@
                 변경 유형은 새 Swift 파일 추가이고, 작업 위치는 `Grasp/HandTrackingManager.swift`입니다.
                 
                 @Code(
-                    name: "HandTrackingManager.swift",
+                    name: "+ 새 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-01.swift
                 )
             }
@@ -59,7 +59,7 @@
                 확인할 결과는 아직 실행되는 코드는 없지만 Hand Tracking을 시작할 준비 객체가 만들어지는 것입니다.
                 
                 @Code(
-                    name: "ARKitSession과 HandTrackingProvider 생성",
+                    name: "+ 새 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-01.swift
                 )
             }
@@ -88,7 +88,7 @@
                 변경 유형은 새 메서드 추가이고, 작업 위치는 `Grasp/HandTrackingManager.swift`의 `HandTrackingManager` 클래스 내부입니다.
                 
                 @Code(
-                    name: "Hand Tracking 시작하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-02.swift
                 )
             }
@@ -101,7 +101,7 @@
                 `catch` 블록은 권한 문제나 장치 상태 문제처럼 Hand Tracking을 시작하지 못했을 때 실행됩니다.
                 
                 @Code(
-                    name: "Hand Tracking 실행 코드",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-02.swift
                 )
             }
@@ -131,7 +131,7 @@
                 변경 유형은 새 private 메서드 추가이고, 작업 위치는 `Grasp/HandTrackingManager.swift`의 `HandTrackingManager` 클래스 내부입니다.
                 
                 @Code(
-                    name: "HandAnchor 업데이트 받기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-03.swift
                 )
             }
@@ -143,7 +143,7 @@
                 이렇게 먼저 멈추면 추적이 끊긴 손의 오래된 데이터로 이후 계산을 진행하는 일을 피할 수 있습니다.
                 
                 @Code(
-                    name: "Tracking 상태 확인",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-03.swift
                 )
             }
@@ -156,7 +156,7 @@
                 확인할 결과는 이 단계에서는 Joint 계산 없이 왼손과 오른손 업데이트가 들어오는지만 보는 것입니다.
                 
                 @Code(
-                    name: "왼손과 오른손 구분하기",
+                    name: "수정할 파일: HandTrackingManager.swift",
                     file: 02-HandTracking-03.swift
                 )
             }
@@ -189,7 +189,7 @@
                 변경 유형은 기존 파일 수정이고, 작업 위치는 `Grasp/ImmersiveView.swift`의 `ImmersiveView` 구조체 내부입니다.
                 
                 @Code(
-                    name: "ImmersiveView.swift",
+                    name: "수정할 파일: ImmersiveView.swift",
                     file: 02-HandTracking-04.swift
                 )
             }
@@ -201,7 +201,7 @@
                 `.task`는 SwiftUI View가 화면에 나타날 때 비동기 작업을 시작하기에 적합합니다.
                 
                 @Code(
-                    name: "ImmersiveView에서 Hand Tracking 실행",
+                    name: "수정할 파일: ImmersiveView.swift",
                     file: 02-HandTracking-04.swift
                 )
             }
