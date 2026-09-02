@@ -129,6 +129,83 @@ html.grasp-site-enhanced {
   letter-spacing: 0 !important;
 }
 
+.grasp-prerequisites-source {
+  display: none !important;
+}
+
+.grasp-hero-meta-grid {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.75rem !important;
+  width: min(100%, 900px) !important;
+  margin: 1.25rem auto 0 !important;
+}
+
+.grasp-hero-meta-grid > :not(.grasp-prerequisites-card),
+.grasp-prerequisites-card {
+  box-sizing: border-box !important;
+  min-height: 4.1rem !important;
+  margin: 0 !important;
+  padding: 0.74rem 0.95rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.055) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18) !important;
+}
+
+.grasp-hero-meta-grid > :not(.grasp-prerequisites-card) {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.grasp-prerequisites-card {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.7rem !important;
+  max-width: 28rem !important;
+  text-align: left !important;
+}
+
+.grasp-meta-symbol {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  width: 1.72rem !important;
+  height: 1.72rem !important;
+  border: 1px solid rgba(48, 209, 88, 0.26) !important;
+  border-radius: 50% !important;
+  background: rgba(48, 209, 88, 0.12) !important;
+  color: var(--grasp-green) !important;
+  font-size: 0.85rem !important;
+  font-weight: 760 !important;
+  line-height: 1 !important;
+}
+
+.grasp-meta-copy {
+  display: grid !important;
+  gap: 0.16rem !important;
+  min-width: 0 !important;
+}
+
+.grasp-meta-label {
+  color: var(--grasp-muted) !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+}
+
+.grasp-meta-value {
+  color: var(--grasp-text) !important;
+  font-size: 0.9rem !important;
+  font-weight: 620 !important;
+  line-height: 1.45 !important;
+  letter-spacing: 0 !important;
+}
+
 .grasp-section-heading {
   margin-top: 3.6rem !important;
   padding-top: 1.05rem !important;
@@ -257,6 +334,15 @@ html.grasp-site-enhanced {
   .grasp-hero-eyebrow {
     max-width: 100%;
     white-space: normal !important;
+  }
+
+  .grasp-hero-meta-grid {
+    justify-content: stretch !important;
+  }
+
+  .grasp-hero-meta-grid > *,
+  .grasp-prerequisites-card {
+    width: 100% !important;
   }
 
   .grasp-section-heading {

@@ -21,6 +21,7 @@
   ];
 
   const tutorialPathPattern = /\/tutorials\/(?:grasphandtracking|grasp\/)/;
+  const prerequisitesPrefix = "Prerequisites:";
 
   const imageTreatments = {
     "Hero-GraspSphere.png": {
@@ -102,6 +103,127 @@
     badge.className = "grasp-image-label";
     badge.textContent = label;
     frame.prepend(badge);
+  }
+
+  function findPrerequisitesElement() {
+    if (!location.pathname.includes("/tutorials/grasphandtracking/")) {
+      return null;
+    }
+
+    const elements = document.querySelectorAll("main p, main li, main span, main div");
+
+    for (const element of elements) {
+      if (element.closest(".grasp-hero-meta-grid")) {
+        continue;
+      }
+
+      const text = normalizedText(element);
+
+      if (
+        isLeafTextElement(element, text)
+        && text.startsWith(prerequisitesPrefix)
+      ) {
+        return element;
+      }
+    }
+
+    return null;
+  }
+
+  function findEstimatedTimeElement() {
+    const main = document.querySelector("main");
+
+    if (!main) {
+      return null;
+    }
+
+    const elements = Array.from(main.querySelectorAll("p, li, span, div"));
+
+    const timeElement = elements.find((element) => {
+      if (element.closest(".grasp-hero-meta-grid, pre, code")) {
+        return false;
+      }
+
+      const text = normalizedText(element);
+      return (
+        isLeafTextElement(element, text)
+        && text.length < 160
+        && /(\d+\s*(min|분)|Estimated\s*Time|예상\s*소요)/i.test(text)
+      );
+    });
+
+    if (!timeElement) {
+      return null;
+    }
+
+    return timeElement.closest("[class*='metadata'], [class*='meta'], li, div, p")
+      || timeElement;
+  }
+
+  function buildPrerequisitesCard(value) {
+    const card = document.createElement("div");
+    card.className = "grasp-prerequisites-card";
+
+    const icon = document.createElement("span");
+    icon.className = "grasp-meta-symbol";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = "✓";
+
+    const copy = document.createElement("span");
+    copy.className = "grasp-meta-copy";
+
+    const label = document.createElement("span");
+    label.className = "grasp-meta-label";
+    label.textContent = "Prerequisites";
+
+    const detail = document.createElement("span");
+    detail.className = "grasp-meta-value";
+    detail.textContent = value;
+
+    copy.append(label, detail);
+    card.append(icon, copy);
+
+    return card;
+  }
+
+  function decoratePrerequisites() {
+    const source = findPrerequisitesElement();
+
+    if (!source) {
+      return;
+    }
+
+    const value = normalizedText(source)
+      .replace(prerequisitesPrefix, "")
+      .trim();
+
+    source.classList.add("grasp-prerequisites-source");
+
+    const existingCard = document.querySelector(".grasp-prerequisites-card");
+
+    if (existingCard) {
+      const valueElement = existingCard.querySelector(".grasp-meta-value");
+
+      if (valueElement) {
+        valueElement.textContent = value;
+      }
+
+      return;
+    }
+
+    const grid = document.createElement("div");
+    grid.className = "grasp-hero-meta-grid";
+
+    const timeElement = findEstimatedTimeElement();
+
+    if (timeElement && timeElement.parentElement) {
+      timeElement.parentElement.insertBefore(grid, timeElement);
+      grid.appendChild(timeElement);
+    } else {
+      source.parentElement.insertBefore(grid, source);
+    }
+
+    grid.appendChild(buildPrerequisitesCard(value));
   }
 
   function splitCodeGuideRows(element) {
@@ -299,6 +421,7 @@
   function decoratePage() {
     decorateTextBlocks();
     decorateHeroText();
+    decoratePrerequisites();
     decorateImages();
     decorateSectionHeadings();
     decorateFooter();

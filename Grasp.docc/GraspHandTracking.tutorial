@@ -13,6 +13,8 @@
         
         각 Chapter에서는 먼저 지금 만드는 기능의 목적을 확인하고,
         코드를 넣을 파일과 위치, 실행 후 확인할 결과를 차례로 살펴봅니다.
+
+        Prerequisites: Swift 기본 문법 · SwiftUI View 구조 기초 · Xcode 기본 사용
         
         @Image(
                source: "Hero-GraspSphere.png",
