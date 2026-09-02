@@ -236,30 +236,15 @@
             @Step {
                 `GraspApp.swift`는 앱의 가장 바깥쪽에서
                 전체 Scene을 구성하는 역할을 합니다.
-                
-                @Image(
-                    source: "Step01-03.png",
-                    alt: "파일 구조 모습"
-                )
             }
             
             @Step {
                 `ContentView.swift`는 기본 Window의 UI를 구성합니다.
-                
-                @Image(
-                    source: "Step01-03.png",
-                    alt: "파일 구조 모습"
-                )
             }
             
             @Step {
                 `ImmersiveView.swift`는 RealityKit을 이용하여
                 실제 공간에 3D 콘텐츠를 표시하는 역할을 합니다.
-                
-                @Image(
-                    source: "Step01-03.png",
-                    alt: "파일 구조 모습"
-                )
             }
             
             @Step {
@@ -280,11 +265,6 @@
                 Grasp Progress
                 →
                 Sphere Visibility
-                
-                @Image(
-                    source: "Step01-03.png",
-                    alt: "파일 구조 모습"
-                )
             }
         }
     }
@@ -299,11 +279,6 @@
             
             ARKit의 `HandTrackingProvider`를 이용하여
             사용자의 왼손과 오른손이 감지되는지 확인합니다.
-            
-            @Image(
-                source: Step02-01,
-                alt: "Hand Tracking을 하여 손을 인식한 모습"
-            )
         }
         
         @Steps {
@@ -312,31 +287,16 @@
                 다음 단계에서는 `ARKitSession`을 생성합니다.
                 
                 ARKitSession은 visionOS에서 ARKit 기능을 실행하기 위한 세션입니다.
-                
-                @Image(
-                    source: Step02-01,
-                    alt: "Hand Tracking을 하여 손을 인식한 모습"
-                )
             }
             
             @Step {
                 `HandTrackingProvider`를 생성하여
                 사용자의 손 Tracking 데이터를 받을 준비를 합니다.
-                
-                @Image(
-                    source: Step02-01,
-                    alt: "Hand Tracking을 하여 손을 인식한 모습"
-                )
             }
             
             @Step {
                 Hand Tracking을 실행한 뒤
                 `HandAnchor`를 통해 왼손과 오른손을 구분합니다.
-                
-                @Image(
-                    source: Step02-01,
-                    alt: "Hand Tracking을 하여 손을 인식한 모습"
-                )
             }
             
             @Step {
@@ -345,11 +305,6 @@
                 
                 👈 Left hand detected
                 👉 Right hand detected
-                
-                @Image(
-                    source: Step02-03,
-                    alt: "Hand Tracking을 하여 손을 인식한 모습"
-                )
             }
         }
     }
