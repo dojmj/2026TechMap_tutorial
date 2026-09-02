@@ -41,7 +41,7 @@
         사용자의 손을 추적합니다.
 
         @Image(
-               source: "Step05-GraspStates.png",
+               source: "Step02-HandTrack.png",
                alt: "펼친 손과 쥔 손을 비교해 Hand Tracking의 입력이 되는 손 움직임을 보여주는 이미지"
                )
         
@@ -56,7 +56,7 @@
         위치를 가져옵니다.
 
         @Image(
-               source: "Step05-GraspStates.png",
+               source: "Step03-Skeleton.png",
                alt: "손가락 Joint 움직임을 이해하기 위한 펼친 손과 쥔 손 비교 이미지"
                )
         
@@ -71,7 +71,7 @@
         3D 거리를 계산합니다.
 
         @Image(
-               source: "Step05-GraspStates.png",
+               source: "Step04-Finger.png",
                alt: "손가락 끝이 손목 방향으로 가까워지는 변화를 보여주는 이미지"
                )
 

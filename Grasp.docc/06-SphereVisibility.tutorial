@@ -16,13 +16,13 @@
             이번 튜토리얼의 마지막 흐름은 아주 단순합니다.
             
             Hand Tracking
-            ↓
+            →
             Joint Position
-            ↓
+            →
             graspProgress
-            ↓
+            →
             Threshold 비교
-            ↓
+            →
             Sphere 표시 / 숨김
             
             `threshold`는 Sphere를 숨길지 결정하는 기준값입니다.
@@ -206,13 +206,13 @@
                 여기까지 성공했다면 이번 튜토리얼의 전체 흐름이 완성된 것입니다.
                 
                 Hand Tracking
-                ↓
+                →
                 Finger Joint 정보
-                ↓
+                →
                 graspProgress 계산
-                ↓
+                →
                 Threshold 비교
-                ↓
+                →
                 Sphere 표시 / 숨김
             }
         }
