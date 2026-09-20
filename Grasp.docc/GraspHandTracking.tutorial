@@ -111,4 +111,12 @@
                            tutorial: "doc:06-SphereVisibility"
                            )
     }
+
+    @Chapter(name: "완성 코드와 실제 실행 화면") {
+        여섯 단계에서 만든 파일을 한곳에서 확인하고, Vision Pro에서 촬영한 실행 화면과 비교합니다.
+
+        @Image(source: "Grasp-App-Photo.png", alt: "Vision Pro의 실제 주변 공간 앞에 청록색 Sphere가 표시된 앱 실행 사진")
+
+        @TutorialReference(tutorial: "doc:07-FinalApp")
+    }
 }
