@@ -71,17 +71,7 @@
 
         @Steps {
             @Step {
-                Xcode에서 **Grasp 프로젝트 → Grasp 앱 타깃 → Info**를 엽니다. **Custom iOS Target Properties**에서 `Privacy - Hands Tracking Usage Description`을 찾아봅니다. 보이지 않으면 `+`로 추가하고, 값에 앱에서 손 추적을 쓰는 목적을 사용자에게 이해되게 적습니다.
-
-                이 튜토리얼의 예시 문구: `손을 쥐는 정도를 인식하기 위해 손을 추적합니다.`
-            }
-
-            @Step {
-                **Build Settings**에서 원래 키 이름인 `NSHandsTrackingUsageDescription`을 검색해 같은 값이 들어갔는지 확인합니다. 현재 프로젝트에는 이미 설정되어 있으므로 중복으로 추가하지 않아도 됩니다.
-            }
-
-            @Step {
-                실제 Vision Pro에서 앱을 실행하고 몰입 공간을 열어 손 추적을 시작합니다. 시스템의 권한 요청이 나타나면 허용합니다. 권한을 거부했다면 기기의 앱별 손 추적 권한 설정을 확인한 뒤 다시 실행하세요. Xcode의 빌드 성공과 실제 기기의 권한 허용은 별개의 단계입니다.
+                Xcode에서 **Grasp 프로젝트 → Grasp 앱 타깃 → Info**를 엽니다. **Custom iOS Target Properties**에서 `Privacy - Hands Tracking Usage Description`을 찾고, 없으면 `+`로 추가합니다. 예시 문구는 `손을 쥐는 정도를 인식하기 위해 손을 추적합니다.`입니다. **Build Settings**에서 원래 키 이름 `NSHandsTrackingUsageDescription`을 검색해 같은 값인지 확인하세요. 현재 프로젝트에는 이미 설정되어 있으므로 중복 추가는 필요하지 않습니다. 실제 Vision Pro에서 앱을 실행하고 몰입 공간을 열면 권한 요청이 나타날 수 있습니다. 허용한 뒤 손 추적을 확인하세요. 거부했다면 기기의 앱별 손 추적 권한을 다시 확인합니다.
             }
         }
     }
@@ -224,109 +214,11 @@
             @Step {
                 이제 앱을 실제 Apple Vision Pro에서 실행합니다.
                 처음 실행할 때 손 Tracking 권한을 요청할 수 있습니다.
-                손 Tracking을 허용한 뒤 Xcode의 Console을 확인합니다.
-            }
-        }
-    }
-    
-    
-    @Section(title: "Hand Tracking 결과 확인하기") {
-        @ContentAndMedia {
-            손을 Vision Pro 앞에서 움직여봅니다.
-            
-            Xcode Console에 다음과 같은 메시지가 출력된다면 Hand Tracking이 정상적으로 동작하고 있는 것입니다.
-            
-            Left hand detected
-            Right hand detected
-            
-            지금까지 구현한 것은 손 전체를 추적하는 단계입니다.
-            
-            아직 손가락 하나하나의 위치는 가져오지 않았습니다.
-        }
-        
-        @Steps {
-            
-            @Step {
-                왼손을 Vision Pro 앞에서 움직여봅니다.
-                Console에 다음과 같은 메시지가 반복해서 출력되는지 확인합니다.
-                👈 Left hand detected
-            }
-            
-            @Step {
-                이번에는 오른손을 움직여봅니다.
-                다음과 같은 메시지가 출력되면 오른손 Tracking도 정상적으로 동작하는 것입니다.
-                👉 Right hand detected
-            }
-            
-            @Step {
-                여기까지 성공했다면 다음과 같은 구조가 완성된 것입니다.
-                
-                Vision Pro
-                →
-                ARKit
-                →
-                ARKitSession
-                →
-                HandTrackingProvider
-                →
-                HandAnchor
-                →
-                Left / Right Hand
-                이제 Vision Pro가 사용자의 손을 인식할 수 있게 되었습니다.
-            }
-        }
-    }
-    
-    
-    @Section(title: "다음 단계에서는 무엇을 할까?") {
-        @ContentAndMedia {
-            지금까지는 손 전체를 추적하는 방법을 알아보았습니다.
-            
-            하지만 우리가 최종적으로 만들고 싶은 것은 사용자가 손가락을 오므렸을 때 Sphere가 사라지는 인터랙션입니다.
-            
-            그러기 위해서는 손 전체의 위치만으로는 부족합니다.
-            
-            손가락 하나하나의 위치가 필요합니다.
-            
-            다음 단계에서는 HandAnchor 안에 있는 HandSkeleton을 살펴보고, 손가락 끝에 해당하는 Joint의 위치를 가져와봅니다.
-        }
-        
-        @Steps {
-            
-            @Step {
-                다음 단계에서는 다음과 같은 Joint를 가져올 예정입니다.
-                
-                thumbTip
-                indexFingerTip
-                middleFingerTip
-                ringFingerTip
-                littleFingerTip
-                wrist
-                각 Joint의 3D 좌표를 얻으면 손가락이 실제로 어떻게 움직이는지 데이터로 확인할 수 있습니다.
-            }
-            
-            @Step {
-                이후에는 이 좌표를 이용하여 다음과 같은 알고리즘을 만들어갑니다.
-                
-                Hand Skeleton
-                →
-                Finger Tip Position
-                →
-                Finger Distance
-                →
-                Finger Closure
-                →
-                graspProgress (0.0 ~ 1.0)
-                →
-                Sphere Visibility
-                →
-                Show / Hide
-            }
-            
-            @Step {
-                다음 단계인 `03-HandJoints`에서는 HandSkeleton에서 각 Joint의 실제 3D 좌표를 가져오는 방법을 구현합니다.
-                
-                손 전체를 추적하는 것에서 한 단계 더 나아가, 손가락 하나하나의 움직임을 데이터로 확인해봅시다.
+                손 Tracking을 허용한 뒤 Xcode의 Console에서 왼손은 `Left hand detected`, 오른손은 `Right hand detected`가 출력되는지 확인합니다.
+
+                지금은 손 전체를 구분하는 단계입니다. 다음 장에서는 `HandSkeleton`에서 개별 손가락의 위치를 가져옵니다.
+
+                @Code(name: "확인할 파일: HandTrackingManager.swift", file: 02-HandTracking-03.swift)
             }
         }
     }

@@ -8,47 +8,8 @@
         
         이번 프로젝트에서는 물체를 잡거나 움직이지 않습니다.
         목표는 Hand Tracking으로 계산한 숫자가 RealityKit Entity의 변화로 이어지는 가장 단순한 구조를 이해하는 것입니다.
-    }
-    
-    
-    @Section(title: "최종 흐름 확인하기") {
-        @ContentAndMedia {
-            이번 튜토리얼의 마지막 흐름은 아주 단순합니다.
-            
-            Hand Tracking
-            →
-            Joint Position
-            →
-            graspProgress
-            →
-            Threshold 비교
-            →
-            Sphere 표시 / 숨김
-            
-            `threshold`는 Sphere를 숨길지 결정하는 기준값입니다.
-            `graspProgress`가 이 값보다 작으면 손을 펼친 쪽에 가깝다고 보고 Sphere를 보여줍니다.
-            `graspProgress`가 이 값 이상이면 손을 충분히 쥐었다고 보고 Sphere를 숨깁니다.
-        }
-        
-        @Steps {
-            @Step {
-                손을 펼친 상태에서는 `graspProgress`가 낮게 계산됩니다.
-                
-                확인할 결과: Sphere가 계속 보입니다.
-            }
-            
-            @Step {
-                손을 점점 쥐면 `graspProgress`가 증가합니다.
-                
-                확인할 결과: 값이 threshold 이상이 되는 순간 Sphere가 사라집니다.
-            }
-            
-            @Step {
-                다시 손을 펼쳐 `graspProgress`가 threshold 아래로 내려가면 Sphere를 다시 표시합니다.
-                
-                확인할 결과: 손을 펴고 쥐는 동작만으로 Sphere 표시 상태가 바뀝니다.
-            }
-        }
+
+        현재 위치: Hand Tracking → Joint Position → graspProgress → **Threshold 비교 → Sphere 표시/숨김**
     }
     
     
@@ -61,6 +22,8 @@
             
             Hand Tracking 코드는 손 데이터를 계산하는 일에 집중하고,
             Sphere 표시/숨김 코드는 Controller가 맡도록 역할을 나눕니다.
+
+            `connect(to:)`는 Sphere를 기억하고 처음에는 보이게 합니다. `update(graspProgress:)`는 값을 `0...1`로 제한한 뒤 기준값 `0.8`과 비교하여 `sphere.isEnabled`를 변경합니다.
         }
         
         @Steps {
@@ -74,19 +37,6 @@
                 )
             }
             
-            @Step {
-                `connect(to:)`는 RealityView에서 만든 Sphere를 Controller에 전달합니다.
-                
-                처음에는 손을 펼친 상태로 시작한다고 보고 Sphere를 보이게 둡니다.
-                확인할 결과는 Controller가 실제 Sphere Entity를 기억하는 것입니다.
-            }
-            
-            @Step {
-                `update(graspProgress:)`에서는 값을 `0...1` 범위로 제한한 뒤 threshold와 비교합니다.
-                
-                threshold 이상이면 `sphere.isEnabled = false`가 되어 Sphere가 숨겨집니다.
-                threshold 아래이면 `sphere.isEnabled = true`가 되어 Sphere가 다시 보입니다.
-            }
         }
     }
     
@@ -105,17 +55,13 @@
             @Step {
                 `ImmersiveView`의 `RealityView` 안에서 Sphere를 생성합니다.
                 변경 유형은 기존 파일 수정이고, 작업 위치는 `Grasp/ImmersiveView.swift`의 `RealityView` content 클로저 내부입니다.
+
+                Sphere는 사용자 앞 약 1.2m에 고정합니다. 이 튜토리얼에서 Sphere는 실제로 잡는 물체가 아니라 grasp 결과를 보여주는 표시 장치입니다.
                 
                 @Code(
                     name: "수정할 파일: ImmersiveView.swift",
                     file: 06-SphereVisibility-02.swift
                 )
-            }
-            
-            @Step {
-                Sphere는 사용자의 앞쪽 약 1.2m 위치에 고정합니다.
-                이번 튜토리얼에서는 물체를 실제로 잡거나 손 위치를 따라 움직이게 만들지 않습니다.
-                Sphere는 grasp 결과를 보여주는 시각적 표시 장치입니다.
             }
             
             @Step {
@@ -130,6 +76,8 @@
                     source: "Step06-SphereResult.png",
                     alt: "검은 배경 위에 하나의 빛나는 Sphere가 떠 있는 Step06 결과 이미지"
                 )
+
+                @Code(name: "확인할 파일: ImmersiveView.swift", file: 06-SphereVisibility-02.swift)
             }
         }
     }
@@ -148,6 +96,8 @@
             @Step {
                 `HandTrackingManager` 안에 `GraspController` 인스턴스와 왼손/오른손의 최신 grasp 값을 저장할 프로퍼티를 만듭니다.
                 변경 유형은 기존 파일 수정이고, 작업 위치는 `Grasp/HandTrackingManager.swift`의 프로퍼티 영역입니다.
+
+                @Code(name: "수정할 파일: HandTrackingManager.swift", file: 06-SphereVisibility-03.swift)
             }
             
             @Step {
@@ -164,56 +114,13 @@
             @Step {
                 손 추적이 끊기거나 `HandSkeleton`을 가져오지 못한 경우에는 해당 손의 값을 `0`으로 되돌립니다.
                 이렇게 해야 이전 프레임의 높은 `graspProgress`가 남아 Sphere가 계속 숨겨지는 상황을 피할 수 있습니다.
+
+                Vision Pro에서 손을 펼치면 Sphere가 보이고, 충분히 쥐면 사라지고, 다시 펼치면 나타나는지 확인하세요. 실제 촬영 화면과 여섯 파일의 완성 코드는 다음 장에 있습니다.
                 
                 @Code(
                     name: "수정할 파일: HandTrackingManager.swift",
                     file: 06-SphereVisibility-04.swift
                 )
-            }
-        }
-    }
-    
-    
-    @Section(title: "결과 확인하기") {
-        @ContentAndMedia {
-            Apple Vision Pro에서 앱을 실행하고 몰입 공간을 엽니다.
-            
-            앞쪽에 표시된 Sphere를 보면서 손을 펼치고 쥐는 동작을 반복해봅니다.
-        }
-        
-        @Steps {
-            @Step {
-                손을 펼쳤을 때 Sphere가 보이는지 확인합니다.
-                성공 기준은 `graspProgress`가 threshold보다 낮고 Sphere가 보이는 것입니다.
-            }
-            
-            @Step {
-                손을 천천히 쥐면서 Xcode Console의 `graspProgress` 값이 증가하는지 확인합니다.
-                성공 기준은 손을 펼쳤을 때보다 쥐었을 때 값이 커지는 것입니다.
-            }
-            
-            @Step {
-                손을 충분히 쥐었을 때 Sphere가 사라지는지 확인합니다.
-                성공 기준은 `graspProgress`가 threshold 이상이 되면 Sphere가 보이지 않는 것입니다.
-            }
-            
-            @Step {
-                다시 손을 펼쳤을 때 Sphere가 다시 나타나는지 확인합니다.
-                성공 기준은 `graspProgress`가 threshold 아래로 내려가고 Sphere가 다시 보이는 것입니다.
-            }
-            
-            @Step {
-                여기까지 성공했다면 이번 튜토리얼의 전체 흐름이 완성된 것입니다.
-                
-                Hand Tracking
-                →
-                Finger Joint 정보
-                →
-                graspProgress 계산
-                →
-                Threshold 비교
-                →
-                Sphere 표시 / 숨김
             }
         }
     }
