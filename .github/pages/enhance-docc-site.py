@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import shutil
 import sys
 from pathlib import Path
@@ -129,10 +130,10 @@ def normalized_base_path(value: str) -> str:
     return base_path
 
 
-def inject_asset_tags(html_path: Path, base_path: str) -> None:
+def inject_asset_tags(html_path: Path, base_path: str, css_version: str) -> None:
     html = html_path.read_text(encoding="utf-8")
     stylesheet = (
-        f'<link href="{base_path}css/grasp-tutorial.css" rel="stylesheet">'
+        f'<link href="{base_path}css/grasp-tutorial.css?v={css_version}" rel="stylesheet">'
     )
     script = f'<script defer src="{base_path}js/grasp-tutorial.js"></script>'
 
@@ -198,12 +199,14 @@ def main() -> int:
     js_dir.mkdir(parents=True, exist_ok=True)
 
     source_dir = Path(__file__).resolve().parent
-    shutil.copy2(source_dir / "grasp-tutorial.css", css_dir / "grasp-tutorial.css")
+    stylesheet_source = source_dir / "grasp-tutorial.css"
+    css_version = hashlib.sha256(stylesheet_source.read_bytes()).hexdigest()[:12]
+    shutil.copy2(stylesheet_source, css_dir / "grasp-tutorial.css")
     shutil.copy2(source_dir / "grasp-tutorial.js", js_dir / "grasp-tutorial.js")
     (site_dir / "theme-settings.json").write_text("{}\n", encoding="utf-8")
 
     for html_path in site_dir.rglob("*.html"):
-        inject_asset_tags(html_path, base_path)
+        inject_asset_tags(html_path, base_path, css_version)
 
     data_dir = site_dir / "data"
     if data_dir.exists():
