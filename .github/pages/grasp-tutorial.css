@@ -363,3 +363,38 @@ html.grasp-site-enhanced {
     max-height: none !important;
   }
 }
+
+/* DocC's Light/Dark switch can differ from the device appearance. */
+body[data-color-scheme="light"] {
+  --grasp-cyan: #006b88;
+  --grasp-green: #18743a;
+  --grasp-yellow: #9a6700;
+  --grasp-rose: #9a5200;
+  --grasp-violet: #5b4a9a;
+  --grasp-text: #17212b;
+  --grasp-muted: #4b5563;
+  --grasp-panel: rgba(22, 40, 55, 0.06);
+  --grasp-panel-strong: rgba(22, 40, 55, 0.1);
+  --grasp-border: rgba(22, 40, 55, 0.2);
+}
+
+html.grasp-site-enhanced:has(body[data-color-scheme="light"]) {
+  background: #fff;
+}
+
+body[data-color-scheme="light"] .grasp-hero-meta-grid > :not(.grasp-prerequisites-card),
+body[data-color-scheme="light"] .grasp-prerequisites-card {
+  border-color: var(--grasp-border) !important;
+  background: #f6f8fa !important;
+  box-shadow: 0 6px 18px rgba(22, 40, 55, 0.08) !important;
+}
+
+body[data-color-scheme="light"] .grasp-section-heading,
+body[data-color-scheme="light"] .grasp-site-footer {
+  border-top-color: var(--grasp-border) !important;
+}
+
+body[data-color-scheme="light"] .grasp-image-label {
+  border-color: var(--grasp-border) !important;
+  background: #fff !important;
+}
