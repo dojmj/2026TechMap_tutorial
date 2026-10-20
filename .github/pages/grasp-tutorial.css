@@ -108,6 +108,22 @@ pre code {
   white-space: pre;
 }
 
+/* Make the exact lines a learner needs to type visually unmistakable. */
+.code-line-container.highlighted {
+  background: rgba(100, 210, 255, 0.18) !important;
+  box-shadow: inset 3px 0 0 var(--grasp-cyan) !important;
+}
+
+body[data-color-scheme="light"] .code-line-container.highlighted {
+  background: rgba(0, 122, 158, 0.14) !important;
+  box-shadow: inset 3px 0 0 #007a9e !important;
+}
+
+body[data-color-scheme="dark"] .code-line-container.highlighted {
+  background: rgba(100, 210, 255, 0.18) !important;
+  box-shadow: inset 3px 0 0 var(--grasp-cyan) !important;
+}
+
 html.grasp-site-enhanced {
   background: #05070b;
 }
@@ -388,6 +404,11 @@ body[data-color-scheme="light"] .grasp-prerequisites-card {
   border-color: var(--grasp-border) !important;
   background: #f6f8fa !important;
   box-shadow: 0 6px 18px rgba(22, 40, 55, 0.08) !important;
+}
+
+body[data-color-scheme="light"] .grasp-hero-meta-grid > :not(.grasp-prerequisites-card),
+body[data-color-scheme="light"] .grasp-hero-meta-grid > :not(.grasp-prerequisites-card) * {
+  color: var(--grasp-text) !important;
 }
 
 body[data-color-scheme="light"] .grasp-section-heading,

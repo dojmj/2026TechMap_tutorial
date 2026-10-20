@@ -1,4 +1,4 @@
-@Tutorial(time: 12) {
+@Tutorial(time: 10) {
     
     @Intro(title: "graspProgress로 Sphere 표시/숨김 만들기") {
         앞 단계에서는 손가락의 접힘 정도를 `0.0`부터 `1.0` 사이의 `graspProgress`로 표현했습니다.

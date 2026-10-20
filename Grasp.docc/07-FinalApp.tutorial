@@ -1,4 +1,4 @@
-@Tutorial(time: 8) {
+@Tutorial(time: 5) {
     @Intro(title: "완성 코드와 실제 실행 화면") {
         지금까지 만든 흐름을 실제 앱과 대조해봅니다. 아래 사진과 영상은 개념도가 아니라 Vision Pro에서 실행한 앱의 촬영 자료입니다.
 

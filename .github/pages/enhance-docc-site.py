@@ -93,6 +93,59 @@ CODE_GUIDES = {
     ),
 }
 
+# Each resource is a focused teaching excerpt rather than a full source-file snapshot.
+# Explicit line numbers keep the emphasis aligned with the action described in the step.
+CODE_HIGHLIGHTS = {
+    "01-ProjectSetup-04.swift": (6, *range(10, 13)),
+    "01-ProjectSetup-05.swift": (*range(4, 9), *range(11, 22), 25),
+    "02-HandTracking-01.swift": tuple(range(1, 10)),
+    "02-HandTracking-02.swift": tuple(range(10, 22)),
+    "02-HandTracking-03.swift": (18, *range(25, 44)),
+    "02-HandTracking-04.swift": (6, 10, *range(12, 15)),
+    "03-HandJoints-01.swift": tuple(range(33, 36)),
+    "03-HandJoints-02.swift": tuple(range(37, 43)),
+    "03-HandJoints-03.swift": (*range(44, 73), *range(76, 91)),
+    "04-FingerDistance-01.swift": tuple(range(1, 11)),
+    "04-FingerDistance-02.swift": (3, *range(6, 12)),
+    "04-FingerDistance-03.swift": (
+        *range(3, 7),
+        *range(13, 17),
+        *range(18, 22),
+        *range(23, 27),
+        *range(28, 35),
+    ),
+    "05-GraspProgress-01.swift": tuple(range(11, 21)),
+    "05-GraspProgress-02.swift": tuple(range(22, 58)),
+    "05-GraspProgress-03.swift": tuple(range(6, 16)),
+    "06-SphereVisibility-01.swift": tuple(range(1, 18)),
+    "06-SphereVisibility-02.swift": tuple(range(1, 18)),
+    "06-SphereVisibility-03.swift": (
+        3,
+        5,
+        6,
+        9,
+        10,
+        *range(12, 36),
+    ),
+    "06-SphereVisibility-04.swift": (4, 5, 10, 11),
+}
+
+
+def highlight_guide_title(title: str) -> str:
+    """Tell readers how the visual emphasis maps to the edit they should make."""
+    replacements = {
+        "📄 새 파일 생성:": "📄 새 파일 생성 · 강조된 전체 코드:",
+        "✅ 코드 추가:": "✅ 강조된 코드 추가:",
+        "✏️ 코드 수정:": "✏️ 강조된 코드 수정:",
+        "🔄 코드 교체:": "🔄 강조된 코드로 교체:",
+    }
+
+    for prefix, replacement in replacements.items():
+        if title.startswith(prefix):
+            return title.replace(prefix, replacement, 1)
+
+    return title
+
 
 def inline_content_from_text(text: str) -> list[dict[str, str]]:
     """Convert lightweight backtick spans into DocC inline code nodes."""
@@ -113,6 +166,7 @@ def inline_content_from_text(text: str) -> list[dict[str, str]]:
 
 def guide_caption(guide: tuple[str, str]) -> list[dict[str, object]]:
     title, location = guide
+    title = highlight_guide_title(title)
     return [
         {
             "type": "paragraph",
@@ -159,6 +213,13 @@ def mark_swift_code(node: object) -> None:
         if node.get("type") == "file" and is_swift_file:
             node["syntax"] = "swift"
             node["fileType"] = "swift"
+
+            resource_name = Path(identifier).name
+            highlighted_lines = CODE_HIGHLIGHTS.get(resource_name)
+            if highlighted_lines:
+                node["highlights"] = [
+                    {"line": line_number} for line_number in highlighted_lines
+                ]
 
         for value in node.values():
             mark_swift_code(value)
