@@ -230,6 +230,31 @@
     grid.appendChild(buildPrerequisitesCard(value));
   }
 
+  function simplifyWholeHourDisplay() {
+    const timeCard = document.querySelector(
+      ".grasp-hero-meta-grid > :not(.grasp-prerequisites-card)"
+    );
+
+    if (!timeCard) {
+      return;
+    }
+
+    const textNodes = document.createTreeWalker(
+      timeCard,
+      NodeFilter.SHOW_TEXT
+    );
+
+    let textNode = textNodes.nextNode();
+
+    while (textNode) {
+      textNode.nodeValue = textNode.nodeValue.replace(
+        /(\d+\s*hr)\s*0\s*min/i,
+        "$1"
+      );
+      textNode = textNodes.nextNode();
+    }
+  }
+
   function splitCodeGuideRows(element) {
     if (element.dataset.graspGuideRows === "true") {
       return;
@@ -426,6 +451,7 @@
     decorateTextBlocks();
     decorateHeroText();
     decoratePrerequisites();
+    simplifyWholeHourDisplay();
     decorateImages();
     decorateSectionHeadings();
     decorateFooter();

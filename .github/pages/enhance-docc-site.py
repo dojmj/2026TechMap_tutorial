@@ -184,12 +184,19 @@ def normalized_base_path(value: str) -> str:
     return base_path
 
 
-def inject_asset_tags(html_path: Path, base_path: str, css_version: str) -> None:
+def inject_asset_tags(
+    html_path: Path,
+    base_path: str,
+    css_version: str,
+    js_version: str,
+) -> None:
     html = html_path.read_text(encoding="utf-8")
     stylesheet = (
         f'<link href="{base_path}css/grasp-tutorial.css?v={css_version}" rel="stylesheet">'
     )
-    script = f'<script defer src="{base_path}js/grasp-tutorial.js"></script>'
+    script = (
+        f'<script defer src="{base_path}js/grasp-tutorial.js?v={js_version}"></script>'
+    )
 
     if "grasp-tutorial.css" not in html:
         html = html.replace("</head>", f"{stylesheet}</head>")
@@ -261,13 +268,15 @@ def main() -> int:
 
     source_dir = Path(__file__).resolve().parent
     stylesheet_source = source_dir / "grasp-tutorial.css"
+    script_source = source_dir / "grasp-tutorial.js"
     css_version = hashlib.sha256(stylesheet_source.read_bytes()).hexdigest()[:12]
+    js_version = hashlib.sha256(script_source.read_bytes()).hexdigest()[:12]
     shutil.copy2(stylesheet_source, css_dir / "grasp-tutorial.css")
-    shutil.copy2(source_dir / "grasp-tutorial.js", js_dir / "grasp-tutorial.js")
+    shutil.copy2(script_source, js_dir / "grasp-tutorial.js")
     (site_dir / "theme-settings.json").write_text("{}\n", encoding="utf-8")
 
     for html_path in site_dir.rglob("*.html"):
-        inject_asset_tags(html_path, base_path, css_version)
+        inject_asset_tags(html_path, base_path, css_version, js_version)
 
     data_dir = site_dir / "data"
     if data_dir.exists():
